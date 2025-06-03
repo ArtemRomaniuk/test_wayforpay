@@ -1,43 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script id="widget-wfp-script" language="javascript" type="text/javascript"
-        src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+    <title>Тестовий платіж через LiqPay</title>
+    <script src="https://static.liqpay.ua/libjs/checkout.js" async></script>
 </head>
 
 <body>
-    <script type="text/javascript">
-        var wayforpay = new Wayforpay();
-        function pay() {
-            const amount = 150; // 🔁 ← можеш зробити змінною
 
-            const orderReference = "order_" + Date.now();
-            const orderDate = Math.floor(Date.now() / 1000);
+    <h2>Тестовий платіж LiqPay</h2>
 
-            window.WfpGateCheckout({
-                merchantAccount: "artemromaniuk_github_io",        // 🔁 ← сюди встав свій логін з WayForPay
-                merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",          // 🔁 ← сюди встав свій домен
-                orderReference: orderReference,
-                orderDate: orderDate,
-                amount: amount,
-                currency: "UAH",
-                productName: ["Назва товару"],
-                productPrice: [amount],
-                productCount: [1],
-                clientFirstName: "Ім’я",
-                clientLastName: "Прізвище",
-                clientEmail: "email@example.com",
-                language: "UA",
-                straightWidget: true // 🔥 спрощений варіант, без підпису
+    <div id="liqpay_checkout"></div>
+
+    <script>
+        // Дані тестового платежу
+        const public_key = "sandbox_i54302443569"; // замініть на свій тестовий public_key
+        const private_key = "sandbox_CFt2SHAf9WgJu7f4Hejaus2QBOgNQw9W2e2y6fpw"; // не використовується в клієнті напряму, лише на сервері
+
+        // Приклад сервера: формуйте data та signature на бекенді
+        // Для спрощення тесту тут використано готові значення (в реальному випадку так не можна робити!)
+
+        // Приклад data та signature — згенеровано на сервері:
+        const data = "eyJwdWJsaWNfa2V5Ijoic2FuZGJveF9pMDAwMDAwMDAwMDAiLCJ2ZXJzaW9uIjoiMyIsInF1ZXVlX2RlbGF5IjoiMAiLCJhbW91bnQiOiIxIiwic3VyZmFjZSI6IndlYiIsImN1cnJlbmN5IjoiVUVIIiwibGFuZ3VhZ2UiOiJ1ayIsInJlc3VsdF91cmwiOiJodHRwczovL215d2Vic2l0ZS5jb20vcmVzdWx0In0=";
+        const signature = "U3lmdjZUY1AwX3BObmRhVHZsa3JLM3I=";
+
+        // Підключення віджета LiqPay
+        window.LiqPayCheckoutCallback = function () {
+            LiqPayCheckout.init({
+                data: data,
+                signature: signature,
+                embedTo: "#liqpay_checkout",
+                mode: "embed" // embed або popup
+            }).on("liqpay.callback", function (data) {
+                console.log("callback", data);
+            }).on("liqpay.ready", function (data) {
+                console.log("ready", data);
+            }).on("liqpay.close", function (data) {
+                console.log("close", data);
             });
-        }
+        };
     </script>
 
-    <button type="button" onclick="pay();">Оплатить</button>
 </body>
 
 </html>
