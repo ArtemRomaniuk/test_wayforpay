@@ -3,31 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>WayForPay Test</title>
+    <title>Test WayForPay</title>
     <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 
 <body>
-
-    <button onclick="pay()">Оплатити</button>
-
+    <button onclick="pay()">Оплатити тест</button>
     <script>
         function pay() {
             const wayforpay = new Wayforpay();
-
-            const secretKey = "bba6cb311a2d984d82bd74847c220a4ad1dd75fd";
-            const orderReference = "ORDER" + Math.floor(Math.random() * 1000000);
+            const secretKey = "flk3409refn54t54t*FNJRET";
+            const orderReference = "TESTORDER" + Math.floor(Math.random() * 100000);
             const orderDate = Math.floor(Date.now() / 1000);
-            const amount = 100;
+            const amount = 1;
             const currency = "UAH";
-            const productName = ["Тестовий товар"];
-            const productPrice = [100];
+            const productName = ["Тест"];
+            const productPrice = [1];
             const productCount = [1];
-
-            const merchantAccount = "artemromaniuk_github_io";
-            const merchantDomainName = "artemromaniuk.github.io/test_wayforpay";
-
+            const merchantAccount = "test_merch_n1";
+            const merchantDomainName = "www.market.ua";
             const signatureSource = [
                 merchantAccount,
                 merchantDomainName,
@@ -39,44 +34,33 @@
                 productCount[0],
                 productPrice[0]
             ].join(';');
-
             const signature = CryptoJS.SHA1(signatureSource + secretKey).toString();
 
-            const paymentData = {
-                merchantAccount: merchantAccount,
-                merchantDomainName: merchantDomainName,
-                orderReference: orderReference,
-                orderDate: orderDate,
-                amount: amount,
-                currency: currency,
-                productName: productName,
-                productPrice: productPrice,
-                productCount: productCount,
-                clientFirstName: "Ім’я",
-                clientLastName: "Прізвище",
-                clientEmail: "client@example.com",
+            const data = {
+                merchantAccount,
+                merchantDomainName,
+                orderReference,
+                orderDate,
+                amount,
+                currency,
+                productName,
+                productCount,
+                productPrice,
+                clientFirstName: "Тест",
+                clientLastName: "Користувач",
+                clientEmail: "test@example.com",
                 language: "UA",
                 merchantSignature: signature
             };
 
             wayforpay.run(
-                paymentData,
-                function (response) {
-                    alert("✔ Оплата успішна!");
-                    console.log(response);
-                },
-                function (response) {
-                    alert("❌ Оплату скасовано");
-                    console.log(response);
-                },
-                function (response) {
-                    alert("⚠ Помилка");
-                    console.error(response);
-                }
+                data,
+                function (res) { console.log("✅ Success", res); },
+                function (res) { console.warn("❌ Canceled", res); },
+                function (res) { console.error("⚠ Error", res); }
             );
         }
     </script>
-
 </body>
 
 </html>
