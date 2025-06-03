@@ -3,19 +3,27 @@
 
 <script type="text/javascript">
     var wayforpay = new Wayforpay();
-    var pay = function () {
+    function pay() {
+        const amount = 150; // 🔁 ← можеш зробити змінною
+
+        const orderReference = "order_" + Date.now();
+        const orderDate = Math.floor(Date.now() / 1000);
+
         window.WfpGateCheckout({
-            straightWidget: true,
-            merchantAccount: "artemromaniuk_github_io",
-            merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",
-            orderReference: "order_" + Date.now(),
-            orderDate: Math.floor(Date.now() / 1000),
-            amount: 100,
+            merchantAccount: "artemromaniuk_github_io",        // 🔁 ← сюди встав свій логін з WayForPay
+            merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",          // 🔁 ← сюди встав свій домен
+            orderReference: orderReference,
+            orderDate: orderDate,
+            amount: amount,
             currency: "UAH",
-            productName: ["Футболка"],
-            productPrice: [100],
+            productName: ["Назва товару"],
+            productPrice: [amount],
             productCount: [1],
-            straightWidget: true
+            clientFirstName: "Ім’я",
+            clientLastName: "Прізвище",
+            clientEmail: "email@example.com",
+            language: "UA",
+            straightWidget: true // 🔥 спрощений варіант, без підпису
         });
     }
 </script>
