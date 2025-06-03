@@ -1,85 +1,23 @@
-<!DOCTYPE html>
-<html>
+<script id="widget-wfp-script" language="javascript" type="text/javascript"
+    src="https://secure.wayforpay.com/server/pay-widget.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <title>WayforPay Тест</title>
-    <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
-</head>
+<script type="text/javascript">
+    var wayforpay = new Wayforpay();
+    var pay = function () {
+        window.WfpGateCheckout({
+            straightWidget: true,
+            merchantAccount: "artemromaniuk_github_io",
+            merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",
+            orderReference: "order_" + Date.now(),
+            orderDate: Math.floor(Date.now() / 1000),
+            amount: 100,
+            currency: "UAH",
+            productName: ["Футболка"],
+            productPrice: [100],
+            productCount: [1],
+            straightWidget: true
+        });
+    }
+</script>
 
-<body>
-    <h2>Оплата товару</h2>
-    <button onclick="pay()">Оплатити 100 грн</button>
-
-    <script>
-        // Хеш SHA1 реалізація
-        async function sha1(message) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-1', data);
-            return Array.from(new Uint8Array(hashBuffer))
-                .map(b => b.toString(16).padStart(2, '0'))
-                .join('');
-        }
-
-        async function pay() {
-            const merchantAccount = "artemromaniuk_github_io";
-            const merchantDomainName = "http://artemromaniuk.github.io/test_wayforpay/";
-            const orderReference = "TEST_ORDER_" + Math.floor(Math.random() * 100000);
-            const orderDate = Math.floor(Date.now() / 1000);
-            const amount = 100;
-            const currency = "UAH";
-            const productName = ["Тестовий товар"];
-            const productPrice = [100];
-            const productCount = [1];
-
-            // Формування підпису
-            const secretKey = "bba6cb311a2d984d82bd74847c220a4ad1dd75fd";
-            const signatureSource = [
-                merchantAccount,
-                merchantDomainName,
-                orderReference,
-                orderDate,
-                amount,
-                currency,
-                productName[0],
-                productCount[0],
-                productPrice[0]
-            ].join(";");
-
-            const signature = await sha1(signatureSource + ";" + secretKey);
-
-            const wayforpay = new Wayforpay();
-            wayforpay.run({
-                merchantAccount,
-                merchantDomainName,
-                orderReference,
-                orderDate,
-                amount,
-                currency,
-                productName,
-                productPrice,
-                productCount,
-                clientFirstName: "Іван",
-                clientLastName: "Тестовий",
-                clientEmail: "test@example.com",
-                clientPhone: "380000000000",
-                merchantSignature: signature
-            },
-                function (response) {
-                    alert("✅ Оплата успішна!");
-                    console.log(response);
-                },
-                function (response) {
-                    alert("❌ Оплату скасовано");
-                    console.log(response);
-                },
-                function (response) {
-                    alert("⚠️ Помилка оплати");
-                    console.log(response);
-                });
-        }
-    </script>
-</body>
-
-</html>
+<button type="button" onclick="pay();">Оплатить</button>
