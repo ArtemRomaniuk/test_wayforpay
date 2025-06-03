@@ -1,31 +1,43 @@
-<script id="widget-wfp-script" language="javascript" type="text/javascript"
-    src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+<!DOCTYPE html>
+<html lang="en">
 
-<script type="text/javascript">
-    var wayforpay = new Wayforpay();
-    function pay() {
-        const amount = 150; // 🔁 ← можеш зробити змінною
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script id="widget-wfp-script" language="javascript" type="text/javascript"
+        src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+</head>
 
-        const orderReference = "order_" + Date.now();
-        const orderDate = Math.floor(Date.now() / 1000);
+<body>
+    <script type="text/javascript">
+        var wayforpay = new Wayforpay();
+        function pay() {
+            const amount = 150; // 🔁 ← можеш зробити змінною
 
-        window.WfpGateCheckout({
-            merchantAccount: "artemromaniuk_github_io",        // 🔁 ← сюди встав свій логін з WayForPay
-            merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",          // 🔁 ← сюди встав свій домен
-            orderReference: orderReference,
-            orderDate: orderDate,
-            amount: amount,
-            currency: "UAH",
-            productName: ["Назва товару"],
-            productPrice: [amount],
-            productCount: [1],
-            clientFirstName: "Ім’я",
-            clientLastName: "Прізвище",
-            clientEmail: "email@example.com",
-            language: "UA",
-            straightWidget: true // 🔥 спрощений варіант, без підпису
-        });
-    }
-</script>
+            const orderReference = "order_" + Date.now();
+            const orderDate = Math.floor(Date.now() / 1000);
 
-<button type="button" onclick="pay();">Оплатить</button>
+            window.WfpGateCheckout({
+                merchantAccount: "artemromaniuk_github_io",        // 🔁 ← сюди встав свій логін з WayForPay
+                merchantDomainName: "http://artemromaniuk.github.io/test_wayforpay/",          // 🔁 ← сюди встав свій домен
+                orderReference: orderReference,
+                orderDate: orderDate,
+                amount: amount,
+                currency: "UAH",
+                productName: ["Назва товару"],
+                productPrice: [amount],
+                productCount: [1],
+                clientFirstName: "Ім’я",
+                clientLastName: "Прізвище",
+                clientEmail: "email@example.com",
+                language: "UA",
+                straightWidget: true // 🔥 спрощений варіант, без підпису
+            });
+        }
+    </script>
+
+    <button type="button" onclick="pay();">Оплатить</button>
+</body>
+
+</html>
