@@ -12,53 +12,22 @@
     <button onclick="pay()">Оплатити тест</button>
     <script>
         function pay() {
-            const wayforpay = new Wayforpay();
-            const secretKey = "flk3409refn54t54t*FNJRET";
-            const orderReference = "TESTORDER" + Math.floor(Math.random() * 100000);
-            const orderDate = Math.floor(Date.now() / 1000);
-            const amount = 1;
-            const currency = "UAH";
-            const productName = ["Тест"];
-            const productPrice = [1];
-            const productCount = [1];
-            const merchantAccount = "test_merch_n1";
-            const merchantDomainName = "https://artemromaniuk.github.io/test_wayforpay/";
-            const signatureSource = [
-                merchantAccount,
-                merchantDomainName,
-                orderReference,
-                orderDate,
-                amount,
-                currency,
-                productName[0],
-                productCount[0],
-                productPrice[0]
-            ].join(';');
-            const signature = CryptoJS.SHA1(signatureSource + secretKey).toString();
-
-            const data = {
-                merchantAccount,
-                merchantDomainName,
-                orderReference,
-                orderDate,
-                amount,
-                currency,
-                productName,
-                productCount,
-                productPrice,
+            window.WfpGateCheckout({
+                merchantAccount: "artemromaniuk_github_io",       // ← встав свій логін
+                merchantDomainName: "artemromaniuk.github.io/test_wayforpay/",         // ← встав свій сайт
+                orderReference: "order_" + Date.now(),
+                orderDate: Math.floor(Date.now() / 1000),
+                amount: 100, // ← динамічна сума
+                currency: "UAH",
+                productName: ["Тестовий товар"],
+                productPrice: [100],
+                productCount: [1],
                 clientFirstName: "Тест",
                 clientLastName: "Користувач",
                 clientEmail: "test@example.com",
                 language: "UA",
-                merchantSignature: signature
-            };
-
-            wayforpay.run(
-                data,
-                function (res) { console.log("✅ Success", res); },
-                function (res) { console.warn("❌ Canceled", res); },
-                function (res) { console.error("⚠ Error", res); }
-            );
+                straightWidget: true
+            });
         }
     </script>
 </body>
