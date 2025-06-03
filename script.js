@@ -2,8 +2,8 @@ function pay() {
     const wayforpay = new Wayforpay();
 
     const paymentData = {
-        merchantAccount: "your_merchant_account",       // заміни на свій логін в WayForPay
-        merchantDomainName: "yourdomain.com",           // домен, на якому розміщена форма
+        merchantAccount: "artemromaniuk_github_io",       // заміни на свій логін в WayForPay
+        merchantDomainName: "artemromaniuk.github.io",           // домен, на якому розміщена форма
         orderReference: "ORDER123456",                  // унікальний номер замовлення
         orderDate: Math.floor(Date.now() / 1000),       // час у форматі Unix
         amount: 100,                                    // сума замовлення
