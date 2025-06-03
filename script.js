@@ -17,6 +17,23 @@ function pay() {
         language: "UA",                                 // мова форми
     };
 
+    // Створення підпису на фронтенді (тільки для тесту!)
+    const secretKey = "ТУТ_ТВІЙ_SECRET_KEY"; // НЕ викладати в публічний код у продакшені
+    const signatureSource = [
+        paymentData.merchantAccount,
+        paymentData.merchantDomainName,
+        paymentData.orderReference,
+        paymentData.orderDate,
+        paymentData.amount,
+        paymentData.currency,
+        paymentData.productName[0],
+        paymentData.productCount[0],
+        paymentData.productPrice[0]
+    ].join(';');
+
+    paymentData.merchantSignature = CryptoJS.SHA1(signatureSource + secretKey).toString();
+
+
     wayforpay.run(paymentData,
         function (response) {
             console.log("✔ Оплата успішна", response);
