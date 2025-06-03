@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Оплата через WayForPay</title>
+    <title>WayForPay Test</title>
     <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
@@ -16,55 +16,62 @@
         function pay() {
             const wayforpay = new Wayforpay();
 
-            // 🔐 Твій секретний ключ
             const secretKey = "bba6cb311a2d984d82bd74847c220a4ad1dd75fd";
-
-            // 🔢 Генерація унікального замовлення
             const orderReference = "ORDER" + Math.floor(Math.random() * 1000000);
             const orderDate = Math.floor(Date.now() / 1000);
+            const amount = 100;
+            const currency = "UAH";
+            const productName = ["Тестовий товар"];
+            const productPrice = [100];
+            const productCount = [1];
+
+            const merchantAccount = "artemromaniuk_github_io";
+            const merchantDomainName = "artemromaniuk.github.io";
+
+            const signatureSource = [
+                merchantAccount,
+                merchantDomainName,
+                orderReference,
+                orderDate,
+                amount,
+                currency,
+                productName[0],
+                productCount[0],
+                productPrice[0]
+            ].join(';');
+
+            const signature = CryptoJS.SHA1(signatureSource + secretKey).toString();
 
             const paymentData = {
-                merchantAccount: "artemromaniuk_github_io",
-                merchantDomainName: "artemromaniuk.github.io",
+                merchantAccount: merchantAccount,
+                merchantDomainName: merchantDomainName,
                 orderReference: orderReference,
                 orderDate: orderDate,
-                amount: 100,
-                currency: "UAH",
-                productName: ["Тестовий товар"],
-                productPrice: [100],
-                productCount: [1],
+                amount: amount,
+                currency: currency,
+                productName: productName,
+                productPrice: productPrice,
+                productCount: productCount,
                 clientFirstName: "Ім’я",
                 clientLastName: "Прізвище",
                 clientEmail: "client@example.com",
-                language: "UA"
+                language: "UA",
+                merchantSignature: signature
             };
 
-            // 🔐 Генерація підпису
-            const signatureBase = [
-                paymentData.merchantAccount,
-                paymentData.merchantDomainName,
-                paymentData.orderReference,
-                paymentData.orderDate,
-                paymentData.amount,
-                paymentData.currency,
-                paymentData.productName[0],
-                paymentData.productCount[0],
-                paymentData.productPrice[0]
-            ].join(';');
-
-            paymentData.merchantSignature = CryptoJS.SHA1(signatureBase + secretKey).toString();
-
-            // 🔄 Відкрити форму WayForPay
             wayforpay.run(
                 paymentData,
                 function (response) {
-                    console.log("✔ Оплата успішна", response);
+                    alert("✔ Оплата успішна!");
+                    console.log(response);
                 },
                 function (response) {
-                    console.log("❌ Оплату скасовано", response);
+                    alert("❌ Оплату скасовано");
+                    console.log(response);
                 },
                 function (response) {
-                    console.log("⚠ Помилка", response);
+                    alert("⚠ Помилка");
+                    console.error(response);
                 }
             );
         }
