@@ -18,7 +18,7 @@ function pay() {
     };
 
     // Створення підпису на фронтенді (тільки для тесту!)
-    const secretKey = "ТУТ_ТВІЙ_SECRET_KEY"; // НЕ викладати в публічний код у продакшені
+    const secretKey = "bba6cb311a2d984d82bd74847c220a4ad1dd75fd"; // НЕ викладати в публічний код у продакшені
     const signatureSource = [
         paymentData.merchantAccount,
         paymentData.merchantDomainName,
