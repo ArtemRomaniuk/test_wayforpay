@@ -1,35 +1,38 @@
-<!DOCTYPE html>
-<html lang="uk">
+<script id="widget-wfp-script" language="javascript" type="text/javascript"
+    src="https://secure.wayforpay.com/server/pay-widget.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Test WayForPay</title>
-    <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-</head>
+<script type="text/javascript">
+    var wayforpay = new Wayforpay();
+    var pay = function () {
+        wayforpay.run({
+            merchantAccount: "artemromaniuk_github_io",
+            merchantDomainName: "artemromaniuk.github.io/test_wayforpay/",
+            authorizationType: "SimpleSignature",
+            merchantSignature: "b95932786cbe243a76b014846b63fe92",
+            orderReference: "DH783023",
+            orderDate: "1415379863",
+            amount: "1547.36",
+            currency: "UAH",
+            productName: "Процессор Intel Core i5-4670 3.4GHz",
+            productPrice: "1000",
+            productCount: "1",
+            clientFirstName: "Вася",
+            clientLastName: "Васечкин",
+            clientEmail: "some@mail.com",
+            clientPhone: "380631234567",
+            language: "UA"
+        },
+            function (response) {
+                // on approved				 			
+            },
+            function (response) {
+                // on declined 			
+            },
+            function (response) {
+                // on pending or in processing 			
+            }
+        );
+    }
+</script>
 
-<body>
-    <button onclick="pay()">Оплатити тест</button>
-    <script>
-        function pay() {
-            window.WfpGateCheckout({
-                merchantAccount: "artemromaniuk_github_io",       // ← встав свій логін
-                merchantDomainName: "artemromaniuk.github.io/test_wayforpay/",         // ← встав свій сайт
-                orderReference: "order_" + Date.now(),
-                orderDate: Math.floor(Date.now() / 1000),
-                amount: 100, // ← динамічна сума
-                currency: "UAH",
-                productName: ["Тестовий товар"],
-                productPrice: [100],
-                productCount: [1],
-                clientFirstName: "Тест",
-                clientLastName: "Користувач",
-                clientEmail: "test@example.com",
-                language: "UA",
-                straightWidget: true
-            });
-        }
-    </script>
-</body>
-
-</html>
+<button type="button" onclick="pay();">Оплатить</button>
