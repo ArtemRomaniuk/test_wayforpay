@@ -2,28 +2,28 @@
 <html>
 
 <head>
-    <title>Тестовий платіж через LiqPay</title>
+    <title>Оплата LiqPay</title>
     <script src="https://static.liqpay.ua/libjs/checkout.js" async></script>
 </head>
 
 <body>
 
     <h2>Оплатити 1 грн (тест)</h2>
+    <button onclick="startPayment()">Оплатити</button>
 
-    <!-- Кнопка для запуску платежу -->
-    <button onclick="startLiqPay()">Оплатити</button>
-
-    <!-- Контейнер для вбудованого віджета -->
     <div id="liqpay_checkout"></div>
 
     <script>
-        function startLiqPay() {
-            const data = "eyJwdWJsaWNfa2V5Ijoic2FuZGJveF9pMDAwMDAwMDAwMDAiLCJ2ZXJzaW9uIjoiMyIsInF1ZXVlX2RlbGF5IjoiMCIsImFtb3VudCI6IjEiLCJjdXJyZW5jeSI6IlVBSCIsInN1cmZhY2UiOiJ3ZWIiLCJsYW5ndWFnZSI6InVrIiwicmVzdWx0X3VybCI6Imh0dHBzOi8vbXl3ZWJzaXRlLmNvbS9yZXN1bHQifQ==";
-            const signature = "U3lmdjZUY1AwX3BObmRhVHZsa3JLM3I=";
+        async function startPayment() {
+            const response = await fetch('/create-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const { data, signature } = await response.json();
 
             LiqPayCheckout.init({
-                data: data,
-                signature: signature,
+                data,
+                signature,
                 embedTo: "#liqpay_checkout",
                 mode: "embed"
             }).on("liqpay.callback", function (data) {
