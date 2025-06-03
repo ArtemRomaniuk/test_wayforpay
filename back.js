@@ -12,11 +12,13 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
 app.post('/create-payment', (req, res) => {
+    frontAmount = req.body.amount;
+
     const order = {
         public_key: publicKey,
         version: '3',
         action: 'pay',
-        amount: '1',
+        amount: frontAmount,
         currency: 'UAH',
         description: 'Тестова оплата',
         order_id: 'test-' + Date.now(),
